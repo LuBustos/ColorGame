@@ -1,0 +1,27 @@
+.box {
+  border: 1px solid;
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.box:hover {
+  cursor: pointer;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin-bottom: 5px;
+  text-align: center;
+}
