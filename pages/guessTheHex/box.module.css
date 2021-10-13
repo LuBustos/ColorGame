@@ -1,9 +1,8 @@
 .box {
   border: 1px solid;
-  height: 50px;
-  width: 50px;
-  margin-right: 10px;
-  margin-left: 10px;
+  height: 100px;
+  width: 100px;
+  margin: 10px;
 }
 
 .box:hover {
@@ -11,14 +10,16 @@
 }
 
 .page {
-  min-height: 100vh;
   padding: 0 0.5rem;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 
 .container {
   display: flex;
   justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .title {

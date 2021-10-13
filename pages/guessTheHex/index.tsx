@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./box.module.css";
 import swal from "sweetalert";
+import router from "next/router";
+
 const componentToHex = (color: number) => {
   const hex = color.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
@@ -14,14 +16,20 @@ const GuessTheHex = () => {
   //First - lvl intermidiete.
   const [colors, setColors] = useState<string[]>([]);
   const [hexToGuess, setHexToGuess] = useState<string>("");
-  const [update,setUpdate] = useState(false);
- 
+  const [update, setUpdate] = useState(false);
+
   useEffect(() => {
-    if(update){
-        setUpdate(false);
+    if (typeof router.query.difficult === "undefined") {
+      router.push("/home");
+    }
+    const totalBoxes = Number(router.query.difficult) + 10;
+    console.log(totalBoxes);
+
+    if (update) {
+      setUpdate(false);
     }
     let colorArray: string[] = [];
-    const colorsTotal = Math.floor(Math.random() * 10 + 1); // numbers between 1 and 10
+    const colorsTotal = Math.floor(Math.random() * 10 + totalBoxes); // numbers between 1 and 10
     const toGuess = Math.floor(Math.random() * colorsTotal);
     for (let i = 0; i < colorsTotal; i++) {
       const red = Math.floor(Math.random() * 255);
@@ -41,16 +49,15 @@ const GuessTheHex = () => {
         title: "You guess the color!",
         text: "Do you want to play again?",
         icon: "success",
-        buttons: ["Main page", "Again!"],
+        buttons: ["Home", "Again!"],
       }).then((value) => {
-            console.log(value)
-          if(value === "Again!"){
-              setUpdate(true);
-          }
+        if (value) {
+          setUpdate(true);
+        }
 
-          if(value === "Main page"){
-              console.log("pa casa")
-          }
+        if (value === null) {
+          router.push("/");
+        }
       });
     } else {
       const arrayLessOne = colors.filter((x, i) => i !== index);
@@ -61,18 +68,22 @@ const GuessTheHex = () => {
   return (
     colors.length > 0 && (
       <div className={styles.page}>
-        <h1 className={styles.title}>Guess the color: {hexToGuess}</h1>
+        <h1 className={styles.title}>{hexToGuess}</h1>
         <hr />
-        <div className={styles.container}>
-          {colors.map((x: string, index: number) => {
-            return (
-              <div
-                className={styles.box}
-                style={{ background: x, color: x }}
-                onClick={() => clickTheColor(index)}
-              ></div>
-            );
-          })}
+        <div>
+          <div className={styles.container}>
+            {colors.map((x: string, index: number) => {
+              return (
+                <div>
+                  <div
+                    className={styles.box}
+                    style={{ background: x, color: x }}
+                    onClick={() => clickTheColor(index)}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     )
